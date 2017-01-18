@@ -13,8 +13,18 @@ def nsu_top10_notice():
             count+=1
         if (count >= 11):
             break
+def aiub_top10_notice():
+    url ='http://www.aiub.edu/'
+    source_code = urllib.request.urlopen(url)
+    soup = BeautifulSoup(source_code.read(),"html.parser")
+    cnt = 1
+    for li in soup.find_all('div',{'class':'bs-callout'}):
+        for link in li.find_all('a'):
+            print(str(cnt)+' '+link.text)
+            print('http://www.aiub.edu'+link.get('href'))
+            cnt += 1
+            if (cnt >= 11):
+                break
 
-
-
-
-nsu_top10_notice()
+# nsu_top10_notice()
+aiub_top10_notice()
