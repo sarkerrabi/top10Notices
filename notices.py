@@ -25,6 +25,7 @@ def aiub_top10_notice():
             cnt += 1
             if (cnt >= 11):
                 break
-
-# nsu_top10_notice()
+print('North South University')
+nsu_top10_notice()
+print('\nAIUB')
 aiub_top10_notice()
