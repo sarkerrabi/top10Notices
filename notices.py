@@ -54,7 +54,7 @@ def iub_top10_notice():
     url ='http://www.iub.edu.bd/'
     sour_code = urllib.request.urlopen(url)
     soup = BeautifulSoup(sour_code.read(),"html.parser")
-    count =1;
+    count =1
     link_div = soup.find('div',{'class':'col-lg-5 resources'})
     for link in link_div.find_all('a'):
         print(str(count)+' '+link.text)
@@ -62,6 +62,24 @@ def iub_top10_notice():
         count += 1
         if (count >= 11):
             break
+def iubat_top10_notice():
+    url ='http://iubat.edu/web1/index.php/notice/'
+    source_code = urllib.request.urlopen(url)
+    soup = BeautifulSoup(source_code.read(),"html.parser")
+
+    link_div1 = soup.find('section', {'class': 'fusion-columns columns fusion-columns-1 columns-1'})
+
+    link_div2 = soup.find('div', {'class': 'fusion-recent-posts avada-container layout-date-on-side layout-columns-1'})
+    count = 1
+    for link in link_div2.find_all('a'):
+        link1 = link_div1.find('a')
+        if(link1!=link):
+            print( str(count)+' '+link.text)
+            print(link.get('href'))
+            count += 1
+            if (count >= 11):
+                break
+
 
 print('\nNorth South University\n')
 nsu_top10_notice()
@@ -73,3 +91,5 @@ print('\nEast West University\n')
 ewu_top10_notice()
 print('\nIndependent University, Bangladesh\n')
 iub_top10_notice()
+print('\nIUBAT— International University of Business Agriculture and Technology\n')
+iubat_top10_notice()
