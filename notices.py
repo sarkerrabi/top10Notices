@@ -37,11 +37,26 @@ def bracu_top10_notice():
             count+=1
         if (count >= 11):
             break
+def ewu_top10_notice():
+    url ='http://www.ewubd.edu/category/news/'
+    source_code = urllib.request.urlopen(url)
+    soup = BeautifulSoup(source_code.read(),"html.parser")
+    count =1
+    for link in soup.find_all('a',{'class':'post_list_item_title h3'}):
+
+        print(str(count)+' '+link.text)
+        print(link.get('href'))
+        count+=1
+        if (count >= 11):
+            break
 
 
-print('\nNorth South University')
+
+print('\nNorth South University\n')
 nsu_top10_notice()
-print('\nAIUB')
+print('\nAmerican International University Bangladesh\n')
 aiub_top10_notice()
-print('\nBRACU')
+print('\nBRAC University\n')
 bracu_top10_notice()
+print('\nEast West University\n')
+ewu_top10_notice()
