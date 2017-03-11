@@ -13,7 +13,7 @@ def nsu_top10_notice():
         for link in title.find_all('a'):
             print('http://www.northsouth.edu/' + link.get('href'))
             count += 1
-        if count >= 11:
+        if count > 10:
             break
 
 
@@ -27,7 +27,7 @@ def aiub_top10_notice():
             print(str(cnt) + ' ' + link.text)
             print('http://www.aiub.edu' + link.get('href'))
             cnt += 1
-        if cnt >= 11:
+        if cnt > 10:
             break
 
 
@@ -41,7 +41,7 @@ def bracu_top10_notice():
             print(str(count) + ' ' + link.text)
             print("http://www.bracu.ac.bd" + link.get('href'))
             count += 1
-        if count >= 11:
+        if count > 10:
             break
 
 
@@ -55,7 +55,7 @@ def ewu_top10_notice():
         print(str(count) + ' ' + link.text)
         print(link.get('href'))
         count += 1
-        if count >= 11:
+        if count > 10:
             break
 
 
@@ -69,7 +69,7 @@ def iub_top10_notice():
         print(str(count) + ' ' + link.text)
         print(link.get('href'))
         count += 1
-        if count >= 11:
+        if count > 10:
             break
 
 
@@ -88,7 +88,7 @@ def iubat_top10_notice():
             print(str(count) + ' ' + link.text)
             print(link.get('href'))
             count += 1
-            if count >= 11:
+            if count > 10:
                 break
 
 
@@ -102,7 +102,20 @@ def uiu_top10_notices():
         print(str(count) + ' ' + link.text)
         print(link.get('href'))
         count += 1
-        if count >= 11:
+        if count > 10:
+            break
+
+
+def seu_top10_notices():
+    url = 'http://www.seu.ac.bd/notice_board.php'
+    source_code = urllib.request.urlopen(url)
+    soup = BeautifulSoup(source_code.read(), 'html.parser')
+    count = 1
+    for link in soup.find_all('a', {'rel': 'facebox'}):
+        print(str(count) + ' ' + link.text)
+        print(url + link.get('href'))
+        count += 1
+        if count > 10:
             break
 
 
@@ -116,7 +129,9 @@ print('\nEast West University\n')
 ewu_top10_notice()
 print('\nIndependent University, Bangladesh\n')
 iub_top10_notice()
-print('\nIUBAT— International University of Business Agriculture and Technology\n')
+print('\nInternational University of Business Agriculture and Technology\n')
 iubat_top10_notice()
 print("\nUnited International University\n")
 uiu_top10_notices()
+print("\nSoutheast University\n")
+seu_top10_notices()
