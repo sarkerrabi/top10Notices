@@ -1,20 +1,24 @@
 import urllib.request
+
+import notify2
 from bs4 import BeautifulSoup
-
-
 def nsu_top10_notice():
     url = 'http://www.northsouth.edu/nsu-announcements/?anaunc_start=0'
     source_code = urllib.request.urlopen(url)
 
     soup = BeautifulSoup(source_code.read(), "html.parser")
     count = 1
-    for title in soup.find_all('h3'):
-        print(str(count) + ' ' + title.text)
-        for link in title.find_all('a'):
-            print('http://www.northsouth.edu/' + link.get('href'))
-            count += 1
+    my_list = []
+    for link in soup.find_all('a',{'class': 'post-title-mini main-color-1-hover'}):
+        print(str(count) + ' ' + link.text)
+        print('http://www.northsouth.edu/' + link.get('href'))
+        sendmessage(str(count) + ' ' + link.text, 'http://www.northsouth.edu/' + link.get('href'))
+        my_list.append(str(count) + ' ' + link.text)
+        my_list.append('http://www.northsouth.edu/' + link.get('href'))
+        count += 1
         if count > 10:
             break
+    make_a_file(my_list, 'noticesNSU')
 
 
 def aiub_top10_notice():
@@ -22,10 +26,13 @@ def aiub_top10_notice():
     source_code = urllib.request.urlopen(url)
     soup = BeautifulSoup(source_code.read(), "html.parser")
     cnt = 1
+    my_list = []
     for li in soup.find_all('div', {'class': 'bs-callout'}):
         for link in li.find_all('a'):
             print(str(cnt) + ' ' + link.text)
             print('http://www.aiub.edu' + link.get('href'))
+            my_list.append(str(cnt) + ' ' + link.text)
+            my_list.append('http://www.aiub.edu' + link.get('href'))
             cnt += 1
         if cnt > 10:
             break
@@ -36,13 +43,17 @@ def bracu_top10_notice():
     source_code = urllib.request.urlopen(url)
     soup = BeautifulSoup(source_code.read(), "html.parser")
     count = 1
+    my_list = []
     for linkdiv in soup.find_all('div', {'class': 'field-content title'}):
         for link in linkdiv.find_all('a'):
             print(str(count) + ' ' + link.text)
             print("http://www.bracu.ac.bd" + link.get('href'))
+            my_list.append(str(count) + ' ' + link.text)
+            my_list.append('http://www.bracu.ac.bd' + link.get('href'))
             count += 1
         if count > 10:
             break
+
 
 
 def ewu_top10_notice():
@@ -97,13 +108,18 @@ def uiu_top10_notices():
     source_code = urllib.request.urlopen(url)
     soup = BeautifulSoup(source_code.read(), 'html.parser')
     count = 1
+    my_list = []
     for souplink in soup.find_all('h2', {'class': 'entry-title'}):
         link = souplink.find('a')
         print(str(count) + ' ' + link.text)
         print(link.get('href'))
+        my_list.append(str(count) + ' ' + link.text)
+        my_list.append(link.get('href'))
         count += 1
         if count > 10:
             break
+    make_a_file(my_list,'noticesUIU')
+
 
 
 def seu_top10_notices():
@@ -119,19 +135,44 @@ def seu_top10_notices():
             break
 
 
-print('\nNorth South University\n')
-nsu_top10_notice()
-print('\nAmerican International University Bangladesh\n')
-aiub_top10_notice()
-print('\nBRAC University\n')
-bracu_top10_notice()
+
+
+def sendmessage(title, message):
+
+    # initialise the d-bus connection
+    notify2.init("News Notifier")
+
+    # create Notification object
+    n = notify2.Notification(None)
+
+    n.update(title, message)
+
+    # show notification on screen
+    n.show()
+    return
+
+# for making a file for notices
+def make_a_file(my_list,listName):
+    with open(listName+'.csv', 'w') as f:
+        for item in my_list:
+            f.write("%s\n" % item)
+
+
+print("\nUnited International University\n")
+uiu_top10_notices()
 print('\nEast West University\n')
 ewu_top10_notice()
 print('\nIndependent University, Bangladesh\n')
 iub_top10_notice()
-print('\nInternational University of Business Agriculture and Technology\n')
-iubat_top10_notice()
-print("\nUnited International University\n")
-uiu_top10_notices()
-print("\nSoutheast University\n")
-seu_top10_notices()
+print('\nNorth South University\n')
+nsu_top10_notice()
+
+
+# print('\nAmerican International University Bangladesh\n')
+# aiub_top10_notice()
+# print('\nBRAC University\n')
+# bracu_top10_notice()
+# print('\nInternational University of Business Agriculture and Technology\n')
+# iubat_top10_notice()
+# print("\nSoutheast University\n")
+# seu_top10_notices()
