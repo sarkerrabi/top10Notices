@@ -14,8 +14,6 @@ def nsu_top10_notice():
         print(str(count) + ' ' + link.text)
         print('http://www.northsouth.edu/' + link.get('href'))
         sendmessage(str(count) + ' ' + link.text, 'http://www.northsouth.edu/' + link.get('href'))
-
-
         my_list.append(str(count) + ' ' + link.text)
         my_list.append('http://www.northsouth.edu/' + link.get('href'))
         count += 1
@@ -38,7 +36,7 @@ def sendmessage(title, message):
     return
 
 def make_a_file(my_list,listName):
-    with open(listName+'.csv', 'w') as f:
+    with open('/home/sarkerrabi/Desktop/NSUnotices/'+listName+'.csv', 'w') as f:
         for item in my_list:
             f.write("%s\n" % item)
 
